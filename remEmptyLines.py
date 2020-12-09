@@ -27,7 +27,7 @@ def remove_lines(filename, numlines):
                         if (line_number > 1):
                             print("removed line {} in {}".format(line_number - 1, filename))
                     old_line = line
-                if old_line != '':
+                if old_line.strip() != '':
                     new_file.write(old_line)
         copymode(filename, abs_path)
         remove(filename)
