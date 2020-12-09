@@ -9,6 +9,7 @@ from os import fdopen, remove, path
 def remove_lines(filename, numlines):
     empty_lines = 0;
     line_number = 0;
+    old_line = None
     try:
         #Create temp file
         fh, abs_path = mkstemp()
@@ -20,10 +21,14 @@ def remove_lines(filename, numlines):
                         empty_lines += 1;
                     else:
                         empty_lines = 0;
-                    if empty_lines < numlines:
-                        new_file.write(line)
+                    if empty_lines < numlines and old_line:
+                        new_file.write(old_line)
                     else:
-                        print("removed line {} in {}".format(line_number, filename))
+                        if (line_number > 1):
+                            print("removed line {} in {}".format(line_number - 1, filename))
+                    old_line = line
+                if old_line != '':
+                    new_file.write(old_line)
         copymode(filename, abs_path)
         remove(filename)
         move(abs_path, filename)
