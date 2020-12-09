@@ -21,13 +21,12 @@ def replace_header(filename):
     with fdopen(fh,'w') as new_file:
         with open(filename) as old_file:
             for line in old_file:
-                if "#pragma once" in line:
+                if "#pragma once\n\n" in line:
                     break
-                if remove_next and "#define" in line.strip():
+                if remove_next and "#define" in line:
                     remove_now = True;
-                if (remove_next):
-                    remove_next = False;
-                if "#ifdef" in line.strip() or "#ifndef" in line.strip() or "#if " in line.strip():
+                remove_next = False;
+                if "#ifdef" in line or "#ifndef" in line or "#if " in line.strip():
                     nested += 1
                 if "#ifndef" in line.strip() and changed == 0:
                     remove_next = True;
@@ -41,6 +40,7 @@ def replace_header(filename):
                 if not remove_now:
                     new_file.write(line)
                 else:
+                    new_file.write('\n')
                     changed = True
                     line_changed = line_number
                 remove_now = False
