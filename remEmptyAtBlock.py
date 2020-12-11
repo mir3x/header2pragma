@@ -8,7 +8,7 @@ from os import fdopen, remove, path
 
 def rem_empty_lines(filename):
     changed = False;
-    in_define = False;
+    ignore_next = False;
     fh, abs_path = mkstemp()
     with fdopen(fh,'w') as new_file:
         with open(filename) as old_file:
@@ -19,13 +19,15 @@ def rem_empty_lines(filename):
                     new_file.write(line)
                 else:
                     changed = True
-                if linestripped.endswith('{'):
+                if linestripped.endswith('{') and not ignore_next:
                     remove_now = True;
                 else:
                     remove_now = False;
                 #dont removed defines
                 if linestripped.endswith('\\'):
-                    remove_now = False
+                    ignore_next = True
+                else:
+                     ignore_next = False
 
     if (changed):
         copymode(filename, abs_path)
