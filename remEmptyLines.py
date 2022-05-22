@@ -23,9 +23,8 @@ def remove_lines(filename, numlines):
                         empty_lines = 0;
                     if empty_lines < numlines and old_line:
                         new_file.write(old_line)
-                    else:
-                        if (line_number > 1):
-                            print("removed line {} in {}".format(line_number - 1, filename))
+                    elif (line_number > 1):
+                        print(f"removed line {line_number - 1} in {filename}")
                     old_line = line
                 if old_line.strip() != '':
                     new_file.write(old_line)
