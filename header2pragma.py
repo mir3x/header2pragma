@@ -15,8 +15,6 @@ def replace_header(filename):
     nested = 0
     line_number = 0
     line_changed = 0
-    # try:
-        #Create temp file
     fh, abs_path = mkstemp()
     with fdopen(fh,'w') as new_file:
         with open(filename) as old_file:
@@ -50,9 +48,9 @@ def replace_header(filename):
         copymode(filename, abs_path)
         remove(filename)
         move(abs_path, filename)
-        print("File {} changed".format(filename))
+        print(f"File {filename} changed")
     else:
-        print("File {} NOT changed".format(filename))
+        print(f"File {filename} NOT changed")
         remove(abs_path)
 
     # except:

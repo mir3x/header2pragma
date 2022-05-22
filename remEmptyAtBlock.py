@@ -19,23 +19,16 @@ def rem_empty_lines(filename):
                     new_file.write(line)
                 else:
                     changed = True
-                if linestripped.endswith('{') and not ignore_next:
-                    remove_now = True;
-                else:
-                    remove_now = False;
+                remove_now = bool(linestripped.endswith('{') and not ignore_next)
                 #dont removed defines
-                if linestripped.endswith('\\'):
-                    ignore_next = True
-                else:
-                     ignore_next = False
-
-    if (changed):
+                ignore_next = bool(linestripped.endswith('\\'))
+    if changed:
         copymode(filename, abs_path)
         remove(filename)
         move(abs_path, filename)
-        print("File {} changed".format(filename))
+        print(f"File {filename} changed")
     else:
-        print("File {} NOT changed".format(filename))
+        print(f"File {filename} NOT changed")
         remove(abs_path)
 
 
